@@ -14,6 +14,21 @@ A working two-agent starter for the A2A Hackathon track. You build:
 Fork it, make it smarter, submit your repo at
 [hackathon.a2anet.com](https://hackathon.a2anet.com).
 
+## Getting started
+
+You need [Docker](https://docs.docker.com/get-docker/) and
+[uv](https://docs.astral.sh/uv/getting-started/installation/) installed.
+
+1. Clone this repo and `cd` into it.
+2. Copy the env file and add your Google API key: `cp .env.example .env`, then
+   edit `.env` and set `GOOGLE_API_KEY`.
+3. Install the Python dependencies: `uv sync`. (Re-run this any time the
+   dependencies in `pyproject.toml` change.)
+4. Start both agents: `docker compose up --build`.
+
+That's it — the agents are now running on `:9001` and `:9002`. See "Dev loop"
+below for smoke-testing and running the task splits.
+
 ## Rules
 
 - Both agents must run on **`gemini-3.5-flash`** (the template default).
@@ -135,20 +150,24 @@ next to this repo.
 # 1. Configure (model credentials etc.)
 cp .env.example .env
 
-# 2. Run your agents
+# 2. Install deps into a local .venv (uv reads pyproject.toml).
+#    Re-run uv sync any time dependencies change.
+uv sync
+
+# 3. Run your agents
 docker compose up --build
 
-# 3. In the harness repo, smoke-test one task (export the same
+# 4. In the harness repo, smoke-test one task (export the same
 #    GOOGLE_API_KEY first — our simulated user runs on it too)
 uv run a2a-hack smoke \
     --personal-url http://localhost:9001 --cs-url http://localhost:9002
 
-# 4. Run the train split and browse results
+# 5. Run the train split and browse results
 uv run a2a-hack run --personal-url http://localhost:9001 \
     --cs-url http://localhost:9002 --tasks train --save-to results/dev --auto-resume
 uv run tau2 view results/dev
 
-# 5. Iterate on prompts/RAG/flow, then submit (see "Submission")
+# 6. Iterate on prompts/RAG/flow, then submit (see "Submission")
 ```
 
 `smoke` prints both conversation legs (user↔personal and personal↔CS), every
