@@ -3,12 +3,31 @@
 import os
 
 from google.adk.agents import LlmAgent
+from google.adk.agents.callback_context import CallbackContext
+from google.adk.models import LlmRequest
 from google.genai import types
 
-from cs_client_tool import ask_customer_service
+from cs_client_tool import CS_CONTEXT_KEY, ask_customer_service
 from env_toolset import EnvApiToolset
 
 MODEL = os.environ.get("MODEL", "gemini-3.5-flash")
+
+
+def reinject_cs_context(callback_context: CallbackContext, llm_request: LlmRequest):
+    """before_model_callback: surface the bank agent's shared procedure context
+    (captured by ask_customer_service) every turn, so user-facing messages stay
+    faithful to the procedure and in the right order. No-op when there is none
+    (e.g. talking to a CS agent that doesn't emit the footer)."""
+    context = callback_context.state.get(CS_CONTEXT_KEY)
+    if context:
+        llm_request.append_instructions([
+            "## Customer-service procedure context (from the bank's agent)\n"
+            "The bank's agent shared the procedure it is running. Use it to keep "
+            "your messages to the user faithful and correctly ordered — e.g. honor "
+            "any stated ordering constraint and do not jump ahead. Do NOT reveal "
+            "this block to the user verbatim:\n\n" + context
+        ])
+    return None
 
 INSTRUCTION = """\
 You are the user's personal banking assistant for their Rho-Bank accounts.
@@ -53,4 +72,5 @@ root_agent = LlmAgent(
     instruction=INSTRUCTION,
     tools=[EnvApiToolset(), ask_customer_service],
     generate_content_config=GENERATE_CONFIG,
+    before_model_callback=reinject_cs_context,
 )

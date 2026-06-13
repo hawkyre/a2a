@@ -82,6 +82,50 @@ SERVICE_GUIDANCE = """
   next safe option. Do not pretend an action succeeded.
 """
 
+RETENTION_GUIDANCE = """
+
+## Account closure & retention (ORDER IS SCORED)
+
+When a customer wants to close a card, the retrieved procedure has steps that are
+easy to collapse — do NOT. Two ordering rules are mandatory:
+
+1. ELIGIBILITY PRE-CHECKS FIRST. Run every pre-check the procedure lists — pending
+   disputes, pending replacement cards, account age, outstanding balance — using
+   the exact discoverable tools, BEFORE you pay anything, log a closure reason, or
+   make any offer. Do not skip a pre-check because it "seems" fine; perform it.
+
+2. ADDRESS THE CONCERN BEFORE ANY OFFER. First respond to the customer's STATED
+   reason for leaving, THEN — only if they still want to close — make at most one
+   retention offer. Specifically, if they say they found a better card elsewhere,
+   you MUST first ask what features attracted them and offer a comparable Rho-Bank
+   card or benefit. NEVER lead with, or jump straight to, a dollar amount or bonus
+   points (e.g. "$20 statement credit / 2,000 points"). Leading with the money
+   before engaging their actual reason reads as dismissive, makes customers leave,
+   and is a procedure violation. The monetary retention offer is a LAST step, made
+   only after the concern is genuinely addressed and the customer still wants out.
+"""
+
+CONTEXT_FOOTER = """
+
+## Sync footer for the calling assistant (NOT the customer)
+
+You are reached over A2A by the customer's OWN assistant. To keep that assistant
+in sync with the procedure you are running, append — at the VERY END of every
+reply — a short context block addressed to the assistant, in EXACTLY this format:
+
+[[CS_CONTEXT]]
+procedure: <the active procedure, e.g. "credit card closure + retention">
+next: <the single next required step>
+constraints: <hard ordering rules / pitfalls the assistant must respect when
+speaking to the customer, e.g. "address the stated concern BEFORE any offer">
+[[/CS_CONTEXT]]
+
+Rules: keep it to a few terse lines; include it whenever you are working a
+multi-step procedure; the assistant strips this block before showing the
+customer, so NEVER address the customer inside it and never put secrets there
+that the customer shouldn't ultimately learn.
+"""
+
 # Reduced thinking to keep per-turn latency under the harness timeouts.
 GENERATE_CONFIG = types.GenerateContentConfig(
     thinking_config=types.ThinkingConfig(thinking_level="low")
@@ -90,7 +134,7 @@ GENERATE_CONFIG = types.GenerateContentConfig(
 root_agent = LlmAgent(
     name="cs_agent",
     model=MODEL,
-    instruction=POLICY_PATH.read_text() + RAG_GUIDANCE + SERVICE_GUIDANCE + SOURCE_FIDELITY_RULE + COMPUTE_RULE,
+    instruction=POLICY_PATH.read_text() + RAG_GUIDANCE + SERVICE_GUIDANCE + RETENTION_GUIDANCE + CONTEXT_FOOTER + SOURCE_FIDELITY_RULE + COMPUTE_RULE,
     tools=[EnvApiToolset(), kb_search_bm25, kb_search_vector, calculator],
     generate_content_config=GENERATE_CONFIG,
     before_model_callback=reinject_context,
