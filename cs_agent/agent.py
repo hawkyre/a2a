@@ -134,23 +134,29 @@ easy to collapse — do NOT. Two ordering rules are mandatory:
 
 CONTEXT_FOOTER = """
 
-## Sync footer for the calling assistant (NOT the customer)
+## MANDATORY sync footer for the calling assistant (NOT the customer)
 
-You are reached over A2A by the customer's OWN assistant. To keep that assistant
-in sync with the procedure you are running, append — at the VERY END of every
-reply — a short context block addressed to the assistant, in EXACTLY this format:
+You are ALWAYS reached over A2A by the customer's OWN assistant, which depends on
+this footer to stay in sync with you. You MUST end EVERY SINGLE reply — with NO
+exceptions: information answers, product comparisons, greetings, clarifying
+questions, error messages, ALL of them — with the context block below, and it MUST
+be the very LAST content in your message, in EXACTLY this format:
 
 [[CS_CONTEXT]]
-procedure: <the active procedure, e.g. "credit card closure + retention">
-next: <the single next required step>
+procedure: <the active procedure, e.g. "credit card closure + retention"; if you
+are only answering a question and running no procedure, write "informational / no procedure">
+next: <the single next required step, or "n/a">
 constraints: <hard ordering rules / pitfalls the assistant must respect when
-speaking to the customer, e.g. "address the stated concern BEFORE any offer">
+speaking to the customer, e.g. "address the stated concern BEFORE any offer"; "none" if none>
 [[/CS_CONTEXT]]
 
-Rules: keep it to a few terse lines; include it whenever you are working a
-multi-step procedure; the assistant strips this block before showing the
-customer, so NEVER address the customer inside it and never put secrets there
-that the customer shouldn't ultimately learn.
+This is NOT optional and is NOT limited to multi-step procedures — append it on
+EVERY turn, even when there is no procedure (use "informational / no procedure").
+Before you finish any reply, CHECK that the [[CS_CONTEXT]] ... [[/CS_CONTEXT]]
+block is present and is the final thing in the message; if it is missing, add it.
+Keep it to a few terse lines. The assistant strips this block before showing the
+customer, so NEVER address the customer inside it and never put secrets there that
+the customer shouldn't ultimately learn.
 """
 
 # Reduced thinking to keep per-turn latency under the harness timeouts.
