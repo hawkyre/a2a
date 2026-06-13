@@ -159,9 +159,11 @@ customer, so NEVER address the customer inside it and never put secrets there th
 the customer shouldn't ultimately learn.
 """
 
-# Reduced thinking to keep per-turn latency under the harness timeouts.
+# Thinking cranked to HIGH for max reasoning quality (procedure adherence,
+# multi-account comparison). Trade-off: higher per-turn latency → watch for
+# harness timeouts.
 GENERATE_CONFIG = types.GenerateContentConfig(
-    thinking_config=types.ThinkingConfig(thinking_level="low")
+    thinking_config=types.ThinkingConfig(thinking_level="high")
 )
 
 root_agent = LlmAgent(
