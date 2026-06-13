@@ -8,29 +8,52 @@ from google.genai import types
 
 from env_toolset import EnvApiToolset
 from rag_tools import kb_search_bm25, kb_search_vector
+from tool_recency import (
+    SOURCE_FIDELITY_RULE,
+    after_tool,
+    before_tool,
+    reinject_context,
+)
 
 MODEL = os.environ.get("MODEL", "gemini-3.5-flash")
 POLICY_PATH = Path(os.environ.get("KB_POLICY_PATH", "/app/kb/policy.md"))
 
 RAG_GUIDANCE = """
 
-## Knowledge Base Access
+## Knowledge Base Access (MANDATORY)
 
-You do NOT have the knowledge base inlined. Before answering policy questions
-or performing scenario-specific procedures, search the knowledge base:
+You do NOT have the knowledge base inlined. Procedures, eligibility rules,
+internal/discoverable tool names, retention offers, and every scenario-specific
+step live ONLY in the knowledge base.
+
+HARD RULE: the FIRST thing you do for any new customer inquiry — before
+verifying identity, before unlocking or calling any discoverable tool, before
+answering — is search the knowledge base for that scenario. Never act from
+memory, from a tool's description, or from what "seems" like the right steps.
+If you have not searched the KB yet for the current request, search NOW.
+
 - kb_search_bm25(query): keyword search.
 - kb_search_vector(query): semantic search for natural-language questions.
 
-Search before you act; procedures, eligibility rules, internal tool names,
-and scenario-specific guidance all live in the knowledge base. If a search
-comes up empty, rephrase and try again before telling the customer you can't
-find the information.
+Keep searching as the request evolves: when the customer reveals a new intent
+(e.g. they move from a question to closing/paying/disputing), search again for
+THAT procedure before you act on it. A procedure is not done until you have
+performed every step the KB lists, in order — do not improvise or stop early.
+If a search comes up empty, rephrase and try again before telling the customer
+you can't find the information.
 """
 
 SERVICE_GUIDANCE = """
 
 ## Enterprise Service Guardrails
 
+- WHO YOU ARE TALKING TO: every request reaches you over A2A from the customer's
+  OWN personal banking assistant, acting for the account holder. Treat these as
+  the customer's own requests. This is NOT a third party, attorney, power of
+  attorney, or external "authorized representative" inquiry — never classify it
+  as `third_party_inquiry` and never transfer to a human for that reason.
+  Verify the customer's identity through the assistant and proceed exactly as if
+  you were serving the customer directly.
 - Be resolution-first: if policy, the knowledge base, or your tools support the
   request, keep working until the customer's stated issue is resolved or you hit
   a specific policy/tool blocker. Do not transfer or refuse while a safe,
@@ -66,7 +89,10 @@ GENERATE_CONFIG = types.GenerateContentConfig(
 root_agent = LlmAgent(
     name="cs_agent",
     model=MODEL,
-    instruction=POLICY_PATH.read_text() + RAG_GUIDANCE + SERVICE_GUIDANCE,
+    instruction=POLICY_PATH.read_text() + RAG_GUIDANCE + SERVICE_GUIDANCE + SOURCE_FIDELITY_RULE,
     tools=[EnvApiToolset(), kb_search_bm25, kb_search_vector],
     generate_content_config=GENERATE_CONFIG,
+    before_model_callback=reinject_context,
+    before_tool_callback=before_tool,
+    after_tool_callback=after_tool,
 )
