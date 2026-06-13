@@ -6,6 +6,7 @@ from pathlib import Path
 from google.adk.agents import LlmAgent
 from google.genai import types
 
+from calculator import COMPUTE_RULE, calculator
 from env_toolset import EnvApiToolset
 from rag_tools import kb_search_bm25, kb_search_vector
 from tool_recency import (
@@ -89,8 +90,8 @@ GENERATE_CONFIG = types.GenerateContentConfig(
 root_agent = LlmAgent(
     name="cs_agent",
     model=MODEL,
-    instruction=POLICY_PATH.read_text() + RAG_GUIDANCE + SERVICE_GUIDANCE + SOURCE_FIDELITY_RULE,
-    tools=[EnvApiToolset(), kb_search_bm25, kb_search_vector],
+    instruction=POLICY_PATH.read_text() + RAG_GUIDANCE + SERVICE_GUIDANCE + SOURCE_FIDELITY_RULE + COMPUTE_RULE,
+    tools=[EnvApiToolset(), kb_search_bm25, kb_search_vector, calculator],
     generate_content_config=GENERATE_CONFIG,
     before_model_callback=reinject_context,
     before_tool_callback=before_tool,

@@ -33,6 +33,8 @@ from google.adk.agents.callback_context import CallbackContext
 from google.adk.models import LlmRequest
 from google.adk.tools import BaseTool, ToolContext
 
+from calc_gate import calc_backed_block, record_calc_result
+
 SCHEMA_KEY = "unlocked_tool_schemas"
 KB_KEY = "kb_results"
 UNLOCK_TOOL = "unlock_discoverable_agent_tool"
@@ -94,6 +96,10 @@ def before_tool(tool: BaseTool, args: dict, tool_context: ToolContext):
                 args["arguments"] = json.dumps(json.loads(raw))
             except (ValueError, TypeError):
                 pass  # not JSON we understand; leave it untouched
+        # --- Calc-backed-write gate: computed numbers must come from calculator ---
+        blocked = calc_backed_block(args, tool_context.state)
+        if blocked:
+            return blocked
     return None
 
 
@@ -112,6 +118,8 @@ def after_tool(tool: BaseTool, args: dict, tool_context: ToolContext, tool_respo
         if text and text not in results:
             results.append(text)
             tool_context.state[KB_KEY] = results[-KB_RESULTS_CAP:]
+    elif tool.name == "calculator":
+        record_calc_result(tool_response, tool_context.state)
     return None  # never modify the tool result
 
 
