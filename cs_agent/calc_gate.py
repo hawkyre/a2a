@@ -29,7 +29,7 @@ _POOL_CAP = 500
 # Only genuinely-computed values are gated (not IDs, fees looked up from policy,
 # or amounts the customer stated), to avoid false blocks on look-up values.
 _NUMERIC_WRITE_ARGS = {
-    "update_transaction_rewards": ("new_rewards_earned",),
+    # update_transaction_rewards is owned by the stricter reconcile gate.
     "apply_checking_account_credit": ("amount",),
     "approve_credit_limit_increase": ("new_credit_limit",),
     "submit_credit_limit_increase_request": ("requested_increase_amount",),

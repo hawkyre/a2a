@@ -34,6 +34,7 @@ from google.adk.models import LlmRequest
 from google.adk.tools import BaseTool, ToolContext
 
 from calc_gate import calc_backed_block, record_calc_result
+from reconcile_tool import authoritative_reinject_text, reconcile_block
 
 SCHEMA_KEY = "unlocked_tool_schemas"
 KB_KEY = "kb_results"
@@ -96,6 +97,10 @@ def before_tool(tool: BaseTool, args: dict, tool_context: ToolContext):
                 args["arguments"] = json.dumps(json.loads(raw))
             except (ValueError, TypeError):
                 pass  # not JSON we understand; leave it untouched
+        # --- Reconcile gate: reward updates must match the authoritative list ---
+        blocked = reconcile_block(args, tool_context.state)
+        if blocked:
+            return blocked
         # --- Calc-backed-write gate: computed numbers must come from calculator ---
         blocked = calc_backed_block(args, tool_context.state)
         if blocked:
@@ -147,6 +152,10 @@ def reinject_context(callback_context: CallbackContext, llm_request: LlmRequest)
             "EXACT parameter names and value types:\n\n"
             + "\n\n".join(text for text in schemas.values() if text)
         )
+
+    recon = authoritative_reinject_text(callback_context.state)
+    if recon:
+        blocks.append(recon)
 
     if blocks:
         llm_request.append_instructions(blocks)
