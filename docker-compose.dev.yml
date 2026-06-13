@@ -1,0 +1,15 @@
+# Local dev overlay for fast iteration. Opt-in via:
+#   docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+# (the Makefile does this for you). Mounts source into the containers so code
+# and prompt edits are picked up by a `restart` — no image rebuild needed. The
+# kb mount means the prebuilt embeddings cache is used at startup. This file is
+# NOT part of the submission run (graders use plain `docker compose up`).
+services:
+  personal-agent:
+    volumes:
+      - ./personal_agent:/app
+
+  cs-agent:
+    volumes:
+      - ./cs_agent:/app
+      - ./kb:/app/kb
