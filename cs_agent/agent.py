@@ -45,6 +45,32 @@ If a search comes up empty, rephrase and try again before telling the customer
 you can't find the information.
 """
 
+PRODUCT_SELECTION_GUIDANCE = """
+
+## Recommending or choosing a product (GATHER → COMPARE → CHOOSE)
+
+When the customer needs you to RECOMMEND or CHOOSE a product — which checking or
+savings account to open, which card, etc. (not just info about one they named) —
+do NOT search their need and pick the first product that surfaces. A narrow,
+need-framed search (e.g. "lowest ATM fees abroad") only surfaces products that
+happen to use those words and buries the actually-best option, so you end up
+committing to a plausible-but-wrong choice.
+
+Instead, every time:
+1. GATHER the full candidate set with a BROAD search — e.g. "personal checking
+   accounts at a glance fees", "<type> account specifications and requirements" —
+   so you see ALL the options of that type, not one keyword match. If the set
+   looks incomplete, search again with different broad terms.
+2. COMPARE the candidates on the figures that decide the customer's STATED
+   priority. Read each option's specs — two products can both advertise "$0 ATM",
+   so the real decider is usually the OTHER costs (monthly maintenance fee AND its
+   waiver threshold, transfer fees, minimums). Compute the customer's likely total
+   cost, not a single headline number.
+3. CHOOSE the option genuinely best for the customer's stated goal and state, in
+   one line, why it beats the runner-up. Never pick on a single matching
+   attribute; never invent figures — take every number from the product's specs.
+"""
+
 SERVICE_GUIDANCE = """
 
 ## Enterprise Service Guardrails
@@ -135,7 +161,7 @@ GENERATE_CONFIG = types.GenerateContentConfig(
 root_agent = LlmAgent(
     name="cs_agent",
     model=MODEL,
-    instruction=POLICY_PATH.read_text() + RAG_GUIDANCE + SERVICE_GUIDANCE + RETENTION_GUIDANCE + CONTEXT_FOOTER + SOURCE_FIDELITY_RULE + COMPUTE_RULE + RECONCILE_RULE,
+    instruction=POLICY_PATH.read_text() + RAG_GUIDANCE + PRODUCT_SELECTION_GUIDANCE + SERVICE_GUIDANCE + RETENTION_GUIDANCE + CONTEXT_FOOTER + SOURCE_FIDELITY_RULE + COMPUTE_RULE + RECONCILE_RULE,
     tools=[EnvApiToolset(), kb_search_bm25, kb_search_vector, calculator, reconcile],
     generate_content_config=GENERATE_CONFIG,
     before_model_callback=reinject_context,
