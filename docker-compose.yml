@@ -30,6 +30,7 @@ services:
       MODEL: ${MODEL:-gemini-3.5-flash}
       GOOGLE_GENAI_USE_VERTEXAI: ${GOOGLE_GENAI_USE_VERTEXAI:-true}
       GOOGLE_API_KEY: ${GOOGLE_API_KEY:-}
+      KB_QUERY_LOG: ${KB_QUERY_LOG:-}
     extra_hosts:
       - "host.docker.internal:host-gateway"
 

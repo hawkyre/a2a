@@ -1,0 +1,74 @@
+{"tool": "vector", "query": "third party inquiry credit card declined", "words": 6}
+{"tool": "vector", "query": "Credit Card Purchase Decline Diagnostic Procedure", "words": 6}
+{"tool": "bm25", "query": "credit card decline diagnostic", "words": 4}
+{"tool": "vector", "query": "third party inquiry policy", "words": 4}
+{"tool": "bm25", "query": "third party", "words": 2}
+{"tool": "vector", "query": "third-party inquiry asking on behalf of another customer policy", "words": 9}
+{"tool": "bm25", "query": "third party inquiry", "words": 3}
+{"tool": "vector", "query": "third_party_inquiry", "words": 1}
+{"tool": "bm25", "query": "one of our users", "words": 4}
+{"tool": "bm25", "query": "third-party inquiry", "words": 2}
+{"tool": "vector", "query": "sharing customer information with third party authorization", "words": 7}
+{"tool": "bm25", "query": "verification", "words": 1}
+{"tool": "vector", "query": "third-party inquiry caller is not the customer", "words": 7}
+{"tool": "bm25", "query": "disclosure", "words": 1}
+{"tool": "vector", "query": "how to handle third party inquiries", "words": 6}
+{"tool": "bm25", "query": "transfer reason", "words": 2}
+{"tool": "vector", "query": "employee credit card decline business authorized user decline credit card", "words": 10}
+{"tool": "bm25", "query": "medical emergency", "words": 2}
+{"tool": "vector", "query": "third party inquiry acting on behalf of a user", "words": 9}
+{"tool": "vector", "query": "third party acting on behalf of a user", "words": 8}
+{"tool": "vector", "query": "cashback rewards discrepancy", "words": 3}
+{"tool": "bm25", "query": "third-party", "words": 1}
+{"tool": "bm25", "query": "third behalf", "words": 2}
+{"tool": "vector", "query": "transfer reasons list how to transfer to human agent", "words": 9}
+{"tool": "vector", "query": "interest payouts lower than expected Silver Platinum Diamond Elite Silver Plus", "words": 11}
+{"tool": "vector", "query": "third-party inquiry policy", "words": 3}
+{"tool": "vector", "query": "Silver Account interest APY calculation", "words": 5}
+{"tool": "bm25", "query": "third party authorization", "words": 3}
+{"tool": "vector", "query": "Platinum Account interest APY calculation", "words": 5}
+{"tool": "vector", "query": "third party inquiry policy attorney power of attorney authorized representative", "words": 10}
+{"tool": "vector", "query": "Diamond Elite Account interest APY calculation", "words": 6}
+{"tool": "bm25", "query": "authorized representative", "words": 2}
+{"tool": "vector", "query": "Silver Account APY tiers balance requirements", "words": 6}
+{"tool": "vector", "query": "third party disclosure privacy policy", "words": 5}
+{"tool": "vector", "query": "Silver Account credit card APY bonuses", "words": 6}
+{"tool": "bm25", "query": "privacy policy", "words": 2}
+{"tool": "vector", "query": "third party customer information verification policy", "words": 6}
+{"tool": "vector", "query": "Diamond Elite Account interest APY lower balance threshold", "words": 8}
+{"tool": "vector", "query": "Diamond Elite Account balance below minimum 250000 interest APY", "words": 9}
+{"tool": "vector", "query": "third party power of attorney attorney representative", "words": 7}
+{"tool": "bm25", "query": "doc_savings_accounts_diamond_elite_account", "words": 1}
+{"tool": "bm25", "query": "Diamond Elite Account", "words": 3}
+{"tool": "bm25", "query": "Diamond Elite", "words": 2}
+{"tool": "vector", "query": "Linked Checking Account APY Boosts for Savings Accounts boost percentages", "words": 10}
+{"tool": "vector", "query": "documentation required third party authorization Power of Attorney representative", "words": 9}
+{"tool": "bm25", "query": "third party documentation", "words": 3}
+{"tool": "vector", "query": "Silver Account checking account APY boost bonus", "words": 7}
+{"tool": "bm25", "query": "Silver Account", "words": 2}
+{"tool": "bm25", "query": "Bluest Account Light Green Account Evergreen Account Blue Account Gold Years Account", "words": 12}
+{"tool": "vector", "query": "Bluest Account Evergreen Account Blue Account Gold Years Account checking savings APY boost", "words": 13}
+{"tool": "vector", "query": "Evergreen Account APY boost savings checking", "words": 6}
+{"tool": "vector", "query": "Green Account Blue Account Gold Years Account checking savings APY boost", "words": 11}
+{"tool": "vector", "query": "Blue Account checking APY boost savings Platinum Silver Plus", "words": 9}
+{"tool": "bm25", "query": "Amara Okonkwo", "words": 2}
+{"tool": "vector", "query": "Power of Attorney authorization on file check", "words": 7}
+{"tool": "vector", "query": "third-party inquiry authorized representative attorney power of attorney", "words": 8}
+{"tool": "bm25", "query": "Power of Attorney", "words": 3}
+{"tool": "vector", "query": "policy on third party inquiries verify identity representative attorney", "words": 9}
+{"tool": "vector", "query": "power of attorney third party authorization process form setup", "words": 9}
+{"tool": "bm25", "query": "third-party verify", "words": 2}
+{"tool": "bm25", "query": "authorization", "words": 1}
+{"tool": "vector", "query": "Silver Rewards Card Business Silver Rewards Card cash back category rules percentage", "words": 12}
+{"tool": "bm25", "query": "Silver Rewards Card", "words": 3}
+{"tool": "vector", "query": "personal Silver Rewards Card cashback categories percentage rate", "words": 8}
+{"tool": "bm25", "query": "Silver Rewards Card other purchases", "words": 5}
+{"tool": "bm25", "query": "Silver Rewards Card:", "words": 3}
+{"tool": "vector", "query": "tool to get bank account details balance savings checking user_id", "words": 10}
+{"tool": "bm25", "query": "doc_id: \"doc:doc_credit_cards_silver_rewards_card\"", "words": 2}
+{"tool": "vector", "query": "personal Silver Rewards Card default base rate percentage other purchases", "words": 10}
+{"tool": "vector", "query": "multiple credit card APY bonuses selection policy highest credit card bonus stack", "words": 12}
+{"tool": "vector", "query": "Silver Plus Account APY tiers balance thresholds Tier 1 Tier 2", "words": 11}
+{"tool": "vector", "query": "Silver Plus Account Tier 2 balance threshold requirements", "words": 8}
+{"tool": "vector", "query": "interest correction calculation tool interest rate discrepancy calculate_interest", "words": 8}
+{"tool": "vector", "query": "update transaction records correct cash back amounts dispute resolved automatically", "words": 10}
